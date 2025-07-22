@@ -1,0 +1,130 @@
+.checkoutProduct {
+  display: flex;
+  margin: 20px 0;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #DDD;
+}
+
+.checkoutProduct__image {
+  object-fit: contain;
+  width: 180px;
+  height: 180px;
+  margin-right: 20px;
+}
+
+.checkoutProduct__info {
+  flex: 1;
+}
+
+.checkoutProduct__title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #0066c0;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.checkoutProduct__title:hover {
+  color: #c45500;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.checkoutProduct__stock {
+  color: #007600;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.checkoutProduct__price {
+  font-size: 18px;
+  color: #B12704;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: baseline;
+}
+
+.checkoutProduct__price small {
+  font-size: 13px;
+  margin-right: 2px;
+}
+
+.checkoutProduct__rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.checkoutProduct__stars {
+  color: #ff9900;
+  margin-right: 5px;
+}
+
+.checkoutProduct__quantity {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.checkoutProduct__quantityLabel {
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.checkoutProduct__quantitySelect {
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid #DDD;
+  background-color: #f0f2f2;
+  cursor: pointer;
+}
+
+.checkoutProduct__actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.checkoutProduct__actions > button {
+  background: none;
+  border: none;
+  color: #0066c0;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+}
+
+.checkoutProduct__actions > button:hover {
+  color: #c45500;
+  text-decoration: underline;
+}
+
+.checkoutProduct__prime {
+  color: #0066c0;
+  font-size: 14px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.checkoutProduct__prime > img {
+  height: 20px;
+  margin-right: 5px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .checkoutProduct {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .checkoutProduct__image {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  
+  .checkoutProduct__info {
+    width: 100%;
+  }
+}

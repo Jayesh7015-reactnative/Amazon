@@ -1,38 +1,101 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root {
+  --amazon-primary: #131921;
+  --amazon-secondary: #232f3e;
+  --amazon-yellow: #febd69;
+  --amazon-orange: #ff9900;
+  --amazon-button: #f0c14b;
+  --amazon-button-border: #a88734 #9c7e31 #846a29;
+  --amazon-background: #eaeded;
+  --amazon-link: #0066c0;
+  --amazon-link-hover: #c45500;
+  --amazon-price: #B12704;
+  --amazon-success: #007600;
+  --amazon-error: #c40000;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--amazon-background);
+  font-size: 14px;
+  line-height: 1.4;
+  color: #111;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+a {
+  text-decoration: none;
+  color: var(--amazon-link);
 }
 
-.App-link {
-  color: #61dafb;
+a:hover {
+  color: var(--amazon-link-hover);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Common Amazon button styles */
+.amazon-button-primary {
+  background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+  border-radius: 3px;
+  border: 1px solid;
+  border-color: var(--amazon-button-border);
+  color: #111;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(255,255,255,.4) inset;
+  transition: all 0.2s ease;
+}
+
+.amazon-button-primary:hover {
+  background: linear-gradient(to bottom, #f5d78e, #eeb933);
+}
+
+.amazon-button-primary:active {
+  background: #f0c14b;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.amazon-button-secondary {
+  background: linear-gradient(to bottom, #f7f8fa, #e7e9ec);
+  border-radius: 3px;
+  border: 1px solid;
+  border-color: #adb1b8 #a2a6ac #8d9096;
+  color: #111;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(255,255,255,.4) inset;
+  transition: all 0.2s ease;
+}
+
+.amazon-button-secondary:hover {
+  background: linear-gradient(to bottom, #e7eaf0, #d9dce1);
+}
+
+/* Utility classes */
+.text-price {
+  color: var(--amazon-price);
+}
+
+.text-success {
+  color: var(--amazon-success);
+}
+
+.text-error {
+  color: var(--amazon-error);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    font-size: 13px;
   }
 }
