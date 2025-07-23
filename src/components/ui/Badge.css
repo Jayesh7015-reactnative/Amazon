@@ -1,0 +1,48 @@
+/* Base badge styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  color: white;
+  border-radius: 10px;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  z-index: 1;
+}
+
+/* Dot variant */
+.badge-dot {
+  min-width: 8px;
+  height: 8px;
+  padding: 0;
+  top: -4px;
+  right: -4px;
+}
+
+/* Color variants */
+.badge-primary {
+  background-color: #ff9900;
+}
+
+.badge-secondary {
+  background-color: #565959;
+}
+
+.badge-success {
+  background-color: #067d62;
+}
+
+.badge-error {
+  background-color: #d13212;
+}
+
+.badge-warning {
+  background-color: #f08804;
+}

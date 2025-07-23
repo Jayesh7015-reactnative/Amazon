@@ -1,0 +1,45 @@
+.custom-image-wrapper {
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.custom-image {
+  transition: transform var(--transition-normal);
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.custom-image-clickable {
+  cursor: pointer;
+}
+
+.custom-image-clickable:hover {
+  transform: scale(1.05);
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lazy-load-image-background.opacity {
+  animation: fadeIn 0.3s;
+}
+
+/* Black and white to color effect */
+.lazy-load-image-background.black-and-white {
+  filter: grayscale(1);
+  transition: filter var(--transition-normal);
+}
+
+.lazy-load-image-background.black-and-white.lazy-load-image-loaded {
+  filter: grayscale(0);
+}

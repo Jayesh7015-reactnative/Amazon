@@ -22,9 +22,9 @@ const Checkout: React.FC = () => {
 
         {state.cart.length === 0 ? (
           <div className="checkout__empty">
-            <h3 className="checkout__emptyTitle">Your Amazon Cart is empty</h3>
+            <h3 className="checkout__emptyTitle">Your ShopZone Cart is empty</h3>
             <p className="checkout__emptyInfo">
-              Your shopping cart is waiting. Give it purpose – fill it with groceries, clothing, household supplies, electronics, and more.
+              Your shopping cart is waiting. Give it purpose – fill it with amazing products, electronics, books, and more.
             </p>
             <Link to="/">
               <button className="checkout__emptyButton">Continue shopping</button>
