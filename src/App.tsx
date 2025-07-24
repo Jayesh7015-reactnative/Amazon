@@ -14,7 +14,6 @@ import Wishlist from './components/Wishlist/Wishlist';
 import SearchResults from './components/Search/SearchResults';
 import CompareProducts from './components/Compare/CompareProducts';
 import './App.css';
-import './styles/theme.css';
 
 function App() {
   return (

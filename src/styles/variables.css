@@ -103,4 +103,42 @@
   --z-index-modal: 1050;
   --z-index-popover: 1060;
   --z-index-tooltip: 1070;
+
+  /* Responsive Breakpoints */
+  --breakpoint-xs: 320px;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1400px;
+
+  /* Container Max Widths */
+  --container-sm: 540px;
+  --container-md: 720px;
+  --container-lg: 960px;
+  --container-xl: 1140px;
+  --container-xxl: 1320px;
+
+  /* Grid System */
+  --grid-columns: 12;
+  --grid-gutter-width: 1.5rem;
+  --grid-gutter-x: calc(var(--grid-gutter-width) * 0.5);
+  --grid-gutter-y: 0;
+
+  /* Mobile-first responsive spacing */
+  --space-responsive-xs: clamp(0.25rem, 0.5vw, 0.5rem);
+  --space-responsive-sm: clamp(0.5rem, 1vw, 1rem);
+  --space-responsive-md: clamp(1rem, 2vw, 2rem);
+  --space-responsive-lg: clamp(1.5rem, 3vw, 3rem);
+  --space-responsive-xl: clamp(2rem, 4vw, 4rem);
+
+  /* Responsive font sizes */
+  --font-size-responsive-xs: clamp(0.75rem, 2vw, 0.875rem);
+  --font-size-responsive-sm: clamp(0.875rem, 2.5vw, 1rem);
+  --font-size-responsive-md: clamp(1rem, 3vw, 1.125rem);
+  --font-size-responsive-lg: clamp(1.125rem, 3.5vw, 1.25rem);
+  --font-size-responsive-xl: clamp(1.25rem, 4vw, 1.5rem);
+  --font-size-responsive-2xl: clamp(1.5rem, 5vw, 2rem);
+  --font-size-responsive-3xl: clamp(1.875rem, 6vw, 2.5rem);
+  --font-size-responsive-4xl: clamp(2.25rem, 7vw, 3rem);
 }

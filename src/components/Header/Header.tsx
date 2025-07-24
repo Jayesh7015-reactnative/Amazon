@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import SearchIcon from '@mui/icons-material/Search';
@@ -7,6 +7,9 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 import './Header.css';
 
@@ -14,6 +17,46 @@ const Header: React.FC = () => {
   const { state, dispatch } = useApp();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('United States');
+  const [showCountryDropdown, setShowCountryDropdown] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const locationRef = useRef<HTMLDivElement>(null);
+  const categoryRef = useRef<HTMLDivElement>(null);
+
+  const countries = [
+    'United States',
+    'Canada',
+    'United Kingdom', 
+    'Germany',
+    'France',
+    'Italy',
+    'Spain',
+    'Australia',
+    'Japan',
+    'South Korea',
+    'India',
+    'Brazil',
+    'Mexico',
+    'Netherlands',
+    'Singapore'
+  ];
+
+  const categories = [
+    'All',
+    'Electronics',
+    'Fashion',
+    'Home & Garden',
+    'Sports',
+    'Books',
+    'Beauty',
+    'Automotive',
+    'Toys & Games',
+    'Health',
+    'Grocery',
+    'Office Products'
+  ];
 
   const handleLogin = () => {
     if (state.user) {
@@ -30,123 +73,178 @@ const Header: React.FC = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Filter products based on search query
-      const filteredProducts = state.products.filter(product =>
+      // Filter products based on search query and category
+      let filteredProducts = state.products.filter(product =>
         product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.description?.toLowerCase().includes(searchQuery.toLowerCase())
       );
+
+      // Apply category filter if not "All"
+      if (selectedCategory !== 'All') {
+        filteredProducts = filteredProducts.filter(product =>
+          product.category?.toLowerCase() === selectedCategory.toLowerCase()
+        );
+      }
+
       dispatch({ type: 'SET_SEARCH_RESULTS', payload: filteredProducts });
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}&category=${encodeURIComponent(selectedCategory)}`);
     }
   };
 
+  const handleCountrySelect = (country: string) => {
+    setSelectedCountry(country);
+    setShowCountryDropdown(false);
+  };
+
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+    setShowCategoryDropdown(false);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (locationRef.current && !locationRef.current.contains(event.target as Node)) {
+        setShowCountryDropdown(false);
+      }
+      if (categoryRef.current && !categoryRef.current.contains(event.target as Node)) {
+        setShowCategoryDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="header">
-      <Link to="/" aria-label="ShopZone Home">
-        <div className="header__logo">
-          <svg viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ShopZone Logo">
-            <defs>
-              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#ff6b35" />
-                <stop offset="30%" stopColor="#f7931e" />
-                <stop offset="70%" stopColor="#fbb03b" />
-                <stop offset="100%" stopColor="#ffcd3c" />
-              </linearGradient>
-              <linearGradient id="zoneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#00d4ff" />
-                <stop offset="100%" stopColor="#5b8def" />
-              </linearGradient>
-              <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#ff9500" />
-                <stop offset="100%" stopColor="#ff6b35" />
-              </linearGradient>
-              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                <feMerge> 
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-              <filter id="textShadow">
-                <feDropShadow dx="0" dy="1" stdDeviation="1" floodOpacity="0.2"/>
-              </filter>
-            </defs>
-            
-            {/* Modern Shopping Icon */}
-            <g className="logo-icon">
-              {/* Shopping bag body */}
-              <path d="M8 12 L22 12 L24 32 Q24 35 21 35 L9 35 Q6 35 6 32 L8 12 Z" 
-                    fill="url(#iconGradient)" 
-                    filter="url(#glow)" />
-              
-              {/* Shopping bag handles */}
-              <path d="M10 12 Q10 7 15 7 Q20 7 20 12" 
-                    stroke="#ffffff" 
-                    strokeWidth="2.5" 
-                    fill="none" 
-                    strokeLinecap="round" />
-              
-              {/* Sparkle effects */}
-              <circle cx="12" cy="20" r="1" fill="#ffffff" opacity="0.8">
-                <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" />
-              </circle>
-              <circle cx="18" cy="25" r="0.8" fill="#ffffff" opacity="0.6">
-                <animate attributeName="opacity" values="0.2;0.8;0.2" dur="1.5s" repeatCount="indefinite" />
-              </circle>
-              
-              {/* Shopping symbol */}
-              <path d="M11 22 L13 24 L19 18" 
-                    stroke="#ffffff" 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    fill="none" 
-                    opacity="0.9" />
-            </g>
-            
-            {/* Brand Text */}
-            <g className="logo-text">
-              <text x="32" y="28" 
-                    fontFamily="'Inter', 'Segoe UI', Arial, sans-serif" 
-                    fontSize="24" 
-                    fontWeight="900" 
-                    fill="url(#logoGradient)"
-                    filter="url(#textShadow)">
-                Shop
-              </text>
-              <text x="85" y="28" 
-                    fontFamily="'Inter', 'Segoe UI', Arial, sans-serif" 
-                    fontSize="24" 
-                    fontWeight="300" 
-                    fill="url(#zoneGradient)"
-                    filter="url(#textShadow)">
-                Zone
-              </text>
-            </g>
-            
-            {/* Decorative elements */}
-            <circle cx="130" cy="15" r="2" fill="url(#logoGradient)" opacity="0.6" className="logo-accent">
-              <animate attributeName="r" values="2;3;2" dur="3s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="135" cy="25" r="1.5" fill="url(#zoneGradient)" opacity="0.5" className="logo-accent">
-              <animate attributeName="r" values="1.5;2.5;1.5" dur="2.5s" repeatCount="indefinite" />
-            </circle>
-          </svg>
-        </div>
-      </Link>
+      <div className="header__topRow">
+        <Link to="/" aria-label="ShopZone Home">
+          <div className="header__logo">
+            <div className="header__logoText">
+              <span className="header__logoShop">Shop</span>
+              <span className="header__logoZone">Zone</span>
+            </div>
+          </div>
+        </Link>
 
-      <div className="header__location">
-        <LocationOnOutlinedIcon className="header__locationIcon" />
-        <div className="header__option">
-          <span className="header__optionLineOne">Deliver to</span>
-          <span className="header__optionLineTwo">United States</span>
+        <div 
+          className="header__location" 
+          ref={locationRef}
+          onClick={() => setShowCountryDropdown(!showCountryDropdown)}
+        >
+          <LocationOnOutlinedIcon className="header__locationIcon" />
+          <div className="header__option">
+            <span className="header__optionLineOne">Deliver to</span>
+            <span className="header__optionLineTwo">
+              {selectedCountry}
+              <ArrowDropDownIcon />
+            </span>
+          </div>
+          {showCountryDropdown && (
+            <div className="header__countryDropdown">
+              {countries.map((country) => (
+                <div
+                  key={country}
+                  className={`header__countryOption ${selectedCountry === country ? 'selected' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCountrySelect(country);
+                  }}
+                >
+                  {country}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="header__nav">
+          {state.user ? (
+            <Link to="/profile">
+              <div className="header__option">
+                <span className="header__optionLineOne">
+                  Hello, {state.user?.displayName?.split(' ')[0] || 'User'}
+                </span>
+                <span className="header__optionLineTwo">
+                  Account
+                  <ArrowDropDownIcon className="d-none d-md-inline" />
+                </span>
+              </div>
+            </Link>
+          ) : (
+            <div onClick={handleLogin} className="header__option">
+              <span className="header__optionLineOne">
+                Hello, Sign in
+              </span>
+              <span className="header__optionLineTwo">
+                Sign In
+                <ArrowDropDownIcon className="d-none d-md-inline" />
+              </span>
+            </div>
+          )}
+
+          <div className="header__option d-none d-lg-flex">
+            <span className="header__optionLineOne">Returns</span>
+            <span className="header__optionLineTwo">& Orders</span>
+          </div>
+
+          <Link to="/wishlist" className="d-none d-sm-block">
+            <div className="header__optionWishlist">
+              <FavoriteIcon />
+              <span className="header__optionLineTwo">Wishlist</span>
+            </div>
+          </Link>
+
+          <Link to="/compare" className="d-none d-lg-block">
+            <div className="header__optionWishlist">
+              <CompareArrowsIcon />
+              <span className="header__optionLineTwo">Compare</span>
+            </div>
+          </Link>
+
+          <Link to="/checkout">
+            <div className="header__optionBasket">
+              <div className="header__basketIconContainer">
+                <ShoppingCartIcon />
+                <span className="header__basketCount">{getCartCount()}</span>
+              </div>
+              <span className="header__optionLineTwo">Cart</span>
+            </div>
+          </Link>
         </div>
       </div>
 
       <form className="header__search" onSubmit={handleSearch} role="search">
-        <div className="header__searchCategory" title="Search category">
-          All
+        <div 
+          className="header__searchCategory" 
+          ref={categoryRef}
+          title="Search category"
+          onClick={(e) => {
+            e.preventDefault();
+            setShowCategoryDropdown(!showCategoryDropdown);
+          }}
+        >
+          {selectedCategory}
           <ArrowDropDownIcon />
+          {showCategoryDropdown && (
+            <div className="header__categoryDropdown">
+              {categories.map((category) => (
+                <div
+                  key={category}
+                  className={`header__categoryOption ${selectedCategory === category ? 'selected' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCategorySelect(category);
+                  }}
+                >
+                  {category}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         <input
           className="header__searchInput"
@@ -161,61 +259,6 @@ const Header: React.FC = () => {
           <SearchIcon className="header__searchIcon" />
         </button>
       </form>
-
-      <div className="header__nav">
-        {state.user ? (
-          <Link to="/profile">
-            <div className="header__option">
-              <span className="header__optionLineOne">
-                Hello, {state.user?.displayName || 'User'}
-              </span>
-              <span className="header__optionLineTwo">
-                Account & Lists
-                <ArrowDropDownIcon />
-              </span>
-            </div>
-          </Link>
-        ) : (
-          <div onClick={handleLogin} className="header__option">
-            <span className="header__optionLineOne">
-              Hello, Sign in
-            </span>
-            <span className="header__optionLineTwo">
-              Account & Lists
-              <ArrowDropDownIcon />
-            </span>
-          </div>
-        )}
-
-        <div className="header__option">
-          <span className="header__optionLineOne">Returns</span>
-          <span className="header__optionLineTwo">& Orders</span>
-        </div>
-
-        <Link to="/wishlist">
-          <div className="header__optionWishlist">
-            <FavoriteIcon />
-            <span className="header__optionLineTwo">Wishlist</span>
-          </div>
-        </Link>
-
-        <Link to="/compare">
-          <div className="header__optionWishlist">
-            <CompareArrowsIcon />
-            <span className="header__optionLineTwo">Compare</span>
-          </div>
-        </Link>
-
-        <Link to="/checkout">
-          <div className="header__optionBasket">
-            <div className="header__basketIconContainer">
-              <ShoppingCartIcon />
-              <span className="header__basketCount">{getCartCount()}</span>
-            </div>
-            <span className="header__optionLineTwo">Cart</span>
-          </div>
-        </Link>
-      </div>
     </div>
   );
 };

@@ -19,6 +19,7 @@ const Home: React.FC = () => {
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const heroRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
+  const [dealTimer, setDealTimer] = useState({ hours: 12, minutes: 34, seconds: 56 });
 
   const carouselImages = [
     {
@@ -83,6 +84,35 @@ const Home: React.FC = () => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Deal timer countdown
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setDealTimer(prev => {
+        let { hours, minutes, seconds } = prev;
+        
+        if (seconds > 0) {
+          seconds--;
+        } else if (minutes > 0) {
+          seconds = 59;
+          minutes--;
+        } else if (hours > 0) {
+          seconds = 59;
+          minutes = 59;
+          hours--;
+        } else {
+          // Reset timer when it reaches 0
+          hours = 23;
+          minutes = 59;
+          seconds = 59;
+        }
+        
+        return { hours, minutes, seconds };
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -264,7 +294,11 @@ const Home: React.FC = () => {
             <h2 className="home__featuredTitle">
               <FlashOnIcon className="home__titleIcon" />
               ⚡ Flash Deals
-              <span className="home__dealTimer">Ends in 12:34:56</span>
+              <span className="home__dealTimer">
+                Ends in {String(dealTimer.hours).padStart(2, '0')}:
+                {String(dealTimer.minutes).padStart(2, '0')}:
+                {String(dealTimer.seconds).padStart(2, '0')}
+              </span>
             </h2>
             <button className="home__viewAll btn-outline">View All Deals</button>
           </div>

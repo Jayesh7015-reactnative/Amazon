@@ -1,5 +1,6 @@
 /* Import the design system variables */
 @import './styles/variables.css';
+@import './styles/responsive.css';
 
 /* Global Styles */
 * {
